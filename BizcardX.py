@@ -1,3 +1,4 @@
+#***************************************************************************************Importing Libraries************************************************************************************************************************************
 import streamlit as st
 from streamlit_option_menu import option_menu
 import easyocr
@@ -8,11 +9,11 @@ import re
 import psycopg2
 import io
 
-
-ragul =psycopg2.connect(host='localhost',user='postgres',password='ragul',port=5432,database='bizcardx')
+#***************************************************************************************Connecting PostgreSQL********************************************************************************************************************
+ragul =psycopg2.connect(host='localhost',user='postgres',password='****',port=5432,database='bizcardx')
 cursor=ragul.cursor()
 
-
+#***************************************************************************************Extracting text from image********************************************************************************************************************
 def extracted_text(upload):
     ext_dic = {'Name': [], 'Designation': [], 'Company name': [], 'Contact': [], 'Email': [], 'Website': [],
                'Address': [], 'Pincode': []}
@@ -51,7 +52,7 @@ def extracted_text(upload):
             ext_dic[key] = [value]
 
     return ext_dic
-
+#***************************************************************************************Creating streamlit dashboard********************************************************************************************************************
 # SETTING PAGE CONFIGURATIONS
 icon = Image.open(".venv\Data-Extraction-Logo.jpg")
 st.set_page_config(page_title="BizCardX: Extracting Business Card Data with OCR | By RAGUL S",
@@ -79,7 +80,7 @@ selected = option_menu(None, ["Home", "Upload & Modify", "Delete"],
                                "container": {"max-width": "6000px"},
                                "nav-link-selected": {"background-color": "#ff5757"}})
 
-
+#***************************************************************************************Selecting Home menu********************************************************************************************************************
 # HOME MENU
 if selected == "Home":
     col1, col2 = st.columns(2)
@@ -91,7 +92,7 @@ if selected == "Home":
             "## :green[**About :**] Bizcard is a Python application designed to extract information from business cards.")
         st.write('## The main purpose of Bizcard is to automate the process of extracting key details from business card images, such as the name, designation, company, contact information, and other relevant data. By leveraging the power of OCR (Optical Character Recognition) provided by EasyOCR, Bizcard is able to extract text from the images')
 
-
+#***************************************************************************************Selecting upload and modify********************************************************************************************************************
 if selected == "Upload & Modify":
     upload = st.file_uploader(label="Upload the image", type=['png', 'jpg', 'jpeg'], label_visibility="hidden")
 
@@ -176,7 +177,7 @@ if selected == "Upload & Modify":
                 pass
     else:
         st.write("Upload an image")      
-
+#***************************************************************************************Selecting delete option********************************************************************************************************************
 # DELETE MENU
 if selected == "Delete":
     col1, col2 = st.columns([4, 4])
